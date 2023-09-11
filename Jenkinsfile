@@ -1,22 +1,22 @@
 pipeline {
     agent {label 'node1'}
     stages {
-        stage ('compilation') {
+        stage ('compilation'){
             steps {
                 sh 'mvn compile'
             }
         }
-        stage ('static code annalysis') {
+        stage ('static code annalysis'){
             steps {
                 sh '/home/ubuntu/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner'
             }
         }
-        stage ('package') {
+        stage ('package'){
             steps {
                 sh 'mvn package'
             }
         }  
-        stage ('deployment') {
+        stage ('deployment'){
             steps {
                 sh 'cp .target/addressbook-2.war /var/lib/tomcat9/webapp/addressbook.war'
             }
