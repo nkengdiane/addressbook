@@ -30,6 +30,7 @@ pipeline {
         }
         always {
                  sh 'echo the build as completed'
+            } 
         }
     }
 }
