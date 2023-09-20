@@ -13,7 +13,7 @@ pipeline {
         }
         stage ('docker-deploy') { 
             steps {
-                sh 'sudo docker run --name mylast1 -d -p 1111:8080 -e ALLLOW_EMPTY_PASSWORD=yes nkeng/myboy:${BUILD_NUMBER}'
+                sh 'sudo docker run --name mylast5 -d -p 1111:8080 -e ALLLOW_EMPTY_PASSWORD=yes nkeng/myboy:${BUILD_NUMBER}'
             }
         }
     }
