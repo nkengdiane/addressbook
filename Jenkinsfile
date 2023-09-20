@@ -8,7 +8,7 @@ pipeline {
         }
         stage ('docker-build') {
             steps {
-                sh 'sudo docker build -t nkeng/myyaddd:${BUILD_NUMBER}' 
+                sh 'sudo docker build -t nkeng/myyaddd:${BUILD_NUMBER} .' 
             }
         }
         stage ('docker-deploy') { 
