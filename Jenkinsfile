@@ -1,38 +1,21 @@
 pipeline {
-  agent { label 'node1' }  
-  stages {
-      stage ('compilation') {
-          steps {
-              sh 'mvn -B compile'
-          }
-      }
-      stage ('SCA') {
-          steps {
-              sh '/home/ubuntu/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner'
-          }
-      }
-      stage ('package') {
-          steps {
-              sh 'mvn -B package'
-          }
-          
-      }
-      stage ('Deploy') {
-          steps {
-              sh 'cp ./target/addressbook-2.0.war /var/lib/tomcat9/webapps/addressbook.war'
-          }
-      }
-     
-    }
-    post {
-      failure {
-          sh 'echo the build failed'
-      }
-      success {
-          sh 'echo the buils is SUCCESSFUL'
-      }
-      always {
-          sh 'echo the build as completed'
-      }
+    agent any
+    stages {
+        stage ('compilation/package') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage ('docker-build') {
+            steps {
+                sh 'sudo docker build -t nkeng/myyaddd:${BUILD_NUMBER}' .
+            }
+        }
+        stage ('docker-deploy') { 
+            steps {
+                sh 'sudo docker run --name mylast1 -d -p 3333:8080 -e ALLLOW_EMPTY_PASSWORD=yes nkeng/myyaddd:${BUILD_NUMBER'
+            }
+        
+        }
     }
 }
