@@ -1,20 +1,21 @@
 pipeline {
-    agent any
+    agent { label 'jenkins-node'}
     stages {
-        stage ('compilation/package') {
+        stage ('compile') {
+            steps {
+                sh 'mvn compile'
+            }
+        }
+        stage ('package') {
             steps {
                 sh 'mvn package'
             }
         }
-        stage ('docker-build') {
+        stage ('SCA') {
             steps {
-                sh 'sudo docker build -t nkeng/myboy:${BUILD_NUMBER} .' 
+                sh '/home/ubuntu/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner'
             }
-        }
-        stage ('docker-deploy') { 
-            steps {
-                sh 'sudo docker run --name mylast5 -d -p 1111:8080 -e ALLLOW_EMPTY_PASSWORD=yes nkeng/myboy:${BUILD_NUMBER}'
-            }
+            
         }
     }
 }
